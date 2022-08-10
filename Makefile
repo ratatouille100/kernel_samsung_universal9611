@@ -1061,6 +1061,9 @@ LDFLAGS_vmlinux += $(call ld-option, --gc-sections,)
 LDFLAGS_vmlinux += -z nostart-stop-gc
 endif
 
+LDFLAGS	+= -z noexecstack
+LDFLAGS	+= $(call ld-option,--no-warn-rwx-segments)
+
 ifeq ($(CONFIG_STRIP_ASM_SYMS),y)
 LDFLAGS_vmlinux	+= $(call ld-option, -X,)
 endif
