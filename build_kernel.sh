@@ -15,17 +15,13 @@ else
 CONFIG_AOSP=vendor/aosp.config
 fi
 
-if [ "$2" = "ksu" ]; then
-CONFIG_KSU=vendor/ksu.config
-fi
-
 if [ -z "$DEVICE" ]; then
 export DEVICE=a51
 fi
 
 rm -rf out
-make O=out CROSS_COMPILE=aarch64-linux-gnu- CC=clang LD=ld.lld AS=llvm-as AR=llvm-ar \
-	OBJDUMP=llvm-objdump READELF=llvm-readelf -j$(nproc) \
-	vendor/${DEVICE}_defconfig vendor/grass.config vendor/${DEVICE}.config $CONFIG_AOSP $CONFIG_KSU
-make O=out CROSS_COMPILE=aarch64-linux-gnu- CC=clang LD=ld.lld AS=llvm-as AR=llvm-ar \
-	OBJDUMP=llvm-objdump READELF=llvm-readelf ${FLAGS} -j$(nproc)
+
+COMMON_FLAGS=" CROSS_COMPILE=aarch64-linux-gnu- CC=clang LD=ld.lld AS=llvm-as AR=llvm-ar OBJDUMP=llvm-objdump READELF=llvm-readelf -j$(nproc)"
+
+make O=out $COMMON_FLAGS vendor/${DEVICE}_defconfig vendor/grass.config vendor/${DEVICE}.config vendor/ksu.config $CONFIG_AOSP
+make O=out $COMMON_FLAGS ${FLAGS} -j$(nproc)
