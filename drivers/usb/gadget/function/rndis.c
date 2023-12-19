@@ -1081,13 +1081,9 @@ static rndis_resp_t *rndis_add_response(struct rndis_params *params, u32 length)
 	r->length = length;
 	r->send = 0;
 
-<<<<<<< HEAD
-	list_add_tail(&r->list, &(params->resp_queue));
-=======
 	spin_lock(&params->resp_lock);
 	list_add_tail(&r->list, &params->resp_queue);
 	spin_unlock(&params->resp_lock);
->>>>>>> 669c2b178956 (usb: gadget: rndis: add spinlock for rndis response list)
 	return r;
 }
 
