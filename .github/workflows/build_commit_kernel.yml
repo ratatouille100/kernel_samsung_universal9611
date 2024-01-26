@@ -3,6 +3,17 @@ name: build kernel via commit
 on:
   workflow_dispatch:
     inputs:
+      Device:
+        type: choice
+        description: Device
+        required: true
+        options: 
+        - a51
+        - m30s
+        - m21
+        - m31
+        - m31s
+        - f41
       myCommit:
         description: 'Commit SHA1'
         required: true
@@ -41,7 +52,7 @@ jobs:
 
       - name: Run build
         run: |
-          DEVICE=${{matrix.device}} bash build_kernel.sh
+          DEVICE=${{inputs.Device}} bash build_kernel.sh
 
       - name: Upload kernel
         uses: actions/upload-artifact@v3.1.2
